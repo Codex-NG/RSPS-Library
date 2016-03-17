@@ -12,6 +12,7 @@ public class Ticker implements Runnable {
 
 	public void queue(Tickable tickable, long period) {
 		TickableWrapper wrapper = new TickableWrapper(tickable, period);
+		wrapper.getTickable().queued = true;
 		wrapper.startTicking();
 		tickables.add(wrapper);
 	}
@@ -23,8 +24,8 @@ public class Ticker implements Runnable {
 			synchronized (tickables) {
 				while ((wrapper = tickables.peek()) != null && wrapper.getDuration() >= wrapper.getPeriod()) {
 					wrapper.getTickable().tick();
-					tickables.remove(); // Remove the task, it will not be
-										// re-queued.
+					wrapper.getTickable().queued = false;
+					tickables.remove(); // Remove the task, it will not be re-queued.
 				}
 			}
 		}

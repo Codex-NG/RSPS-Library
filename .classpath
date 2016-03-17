@@ -2,5 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="dependencies/quasar-core-0.7.4.jar"/>
+	<classpathentry kind="lib" path="dependencies/asm-all-5.0.3.jar"/>
+	<classpathentry kind="lib" path="dependencies/guava-18.0.jar"/>
+	<classpathentry kind="lib" path="dependencies/kryo-2.22-all.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
