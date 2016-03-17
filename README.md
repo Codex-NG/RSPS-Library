@@ -9,6 +9,6 @@ The code inside of this library has been separated from various other private se
 
 #Setup
 <pre>
-<b>Add this to your command line VM arguments:<br>
+<b>Add this to your command line VM arguments:</b><br>
     -javaagent:dependencies/quasar-core-0.7.4.jar
 </pre>
