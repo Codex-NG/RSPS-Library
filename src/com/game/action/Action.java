@@ -9,18 +9,20 @@ import co.paralleluniverse.fibers.SuspendExecution;
 import com.core.LibraryCore;
 
 /**
- * An abstract class which represents an action that a player may perform, such as combat or
- * chopping an oak tree.
+ * An abstract class which represents an action that a player may perform, such
+ * as combat or chopping an oak tree.
  * 
  * @author netherfoam
  */
 public abstract class Action {
 	/**
-	 * Waits for the given number of ticks. This may only be invoked from a Fiber, otherwise an
-	 * exception is thrown. A SuspendExecution is not an exception, but a marker that the method may
-	 * cause the current fiber to be suspended. This method may be used without blocking the thread,
-	 * but while blocking the current Fiber. This is a neat way of writing events so that they are
-	 * cleaner and do not need non-local variables to track states or to be ridden with callbacks.
+	 * Waits for the given number of ticks. This may only be invoked from a
+	 * Fiber, otherwise an exception is thrown. A SuspendExecution is not an
+	 * exception, but a marker that the method may cause the current fiber to be
+	 * suspended. This method may be used without blocking the thread, but while
+	 * blocking the current Fiber. This is a neat way of writing events so that
+	 * they are cleaner and do not need non-local variables to track states or
+	 * to be ridden with callbacks.
 	 * 
 	 * @param ticks
 	 *            the number of ticks to wait before returning.
@@ -34,18 +36,17 @@ public abstract class Action {
 		while (System.currentTimeMillis() - start < millis)
 			Fiber.park();
 	}
-	
+
 	public static void wait(int delay) throws SuspendExecution {
 		wait(delay, TimeUnit.MILLISECONDS);
 	}
 
-
 	/** The mob who is performing the action */
 	protected final Actor owner;
 	/**
-	 * The list of actions which are 'paired' to this one. If A is paired with B, then B is paired
-	 * with A. If A is cancelled, B should be cancelled and visa versa. If A terminates, B should
-	 * not be cancelled.
+	 * The list of actions which are 'paired' to this one. If A is paired with
+	 * B, then B is paired with A. If A is cancelled, B should be cancelled and
+	 * visa versa. If A terminates, B should not be cancelled.
 	 */
 	protected LinkedList<Action> paired = new LinkedList<Action>();
 
@@ -78,9 +79,10 @@ public abstract class Action {
 	}
 
 	/**
-	 * Called successively upon a tick when this action is able to be run. This moves the internal
-	 * fiber, either creating a new one if it is the first time, or unparking an existing one if it
-	 * is a sequential time. If the action has finished, this will raise an exception.
+	 * Called successively upon a tick when this action is able to be run. This
+	 * moves the internal fiber, either creating a new one if it is the first
+	 * time, or unparking an existing one if it is a sequential time. If the
+	 * action has finished, this will raise an exception.
 	 */
 	protected void tick() {
 		if (fiber == null) {
@@ -93,8 +95,10 @@ public abstract class Action {
 						try {
 							Action.this.run();
 						} catch (Throwable t) {
-							System.out.println("There was an Exception thrown while running an Action. Details:");
-							System.out.println("Mob: " + Action.this.getOwner() + ", Action: " + Action.this);
+							if (LibraryCore.DEBUGGING) {
+								System.out.println("There was an Exception thrown while running an Action. Details:");
+								System.out.println("Mob: " + Action.this.getOwner() + ", Action: " + Action.this);
+							}
 							t.printStackTrace();
 						}
 						//Notify the action queue this action has ended
@@ -104,14 +108,16 @@ public abstract class Action {
 				};
 			} catch (IllegalArgumentException e) {
 				if (e.getMessage().contains("instrumented")) {
-					System.out.println("It appears that the class " + this + " has not been instrumented.");
-					System.out.println("The ClassLoader hierachy is:");
-					ClassLoader cl = this.getClass().getClassLoader();
-					StringBuilder sb = new StringBuilder(cl.getClass().getCanonicalName());
-					while (((cl = cl.getParent())) != null) {
-						sb.append(" < " + cl.getClass().getCanonicalName());
+					if (LibraryCore.DEBUGGING) {
+						System.out.println("It appears that the class " + this + " has not been instrumented.");
+						System.out.println("The ClassLoader hierachy is:");
+						ClassLoader cl = this.getClass().getClassLoader();
+						StringBuilder sb = new StringBuilder(cl.getClass().getCanonicalName());
+						while (((cl = cl.getParent())) != null) {
+							sb.append(" < " + cl.getClass().getCanonicalName());
+						}
+						System.out.println(sb.toString());
 					}
-					System.out.println(sb.toString());
 				}
 				throw e;
 			}
@@ -131,40 +137,44 @@ public abstract class Action {
 	}
 
 	/**
-	 * Called when a tick passes and this action is the first action in the queue. If the action has
-	 * finished, this method should return true. If the action is not fully complete, it should
-	 * return false. If the action is cancellable, then despite returning false, it may not have its
-	 * run() method invoked again. When an action is cancelled, whether it started or not, it's
-	 * cancel() method will always be invoked.
+	 * Called when a tick passes and this action is the first action in the
+	 * queue. If the action has finished, this method should return true. If the
+	 * action is not fully complete, it should return false. If the action is
+	 * cancellable, then despite returning false, it may not have its run()
+	 * method invoked again. When an action is cancelled, whether it started or
+	 * not, it's cancel() method will always be invoked.
 	 * 
 	 * @return true if finished, false if continue to call run() every tick.
 	 */
 	protected abstract void run() throws SuspendExecution;
 
 	/**
-	 * Cancels this action. This is called when it is interrupted or cancelled before it could be
-	 * started. If run() returns true, this method will not be called, otherwise it will be called.
-	 * This allows cleanup.
+	 * Cancels this action. This is called when it is interrupted or cancelled
+	 * before it could be started. If run() returns true, this method will not
+	 * be called, otherwise it will be called. This allows cleanup.
 	 */
 	protected abstract void onCancel();
 
 	/**
-	 * Returns true if this action is cancellable (Eg, movement, following, and combat are
-	 * cancellable. Eating and being stunned are not). If this method returns false, it can still be
-	 * cancelled if the ActionQueue is requested to cancel it specifically. When the ActionQueue has
-	 * the clear() method invoked, however, only cancellable Actions will be removed.
+	 * Returns true if this action is cancellable (Eg, movement, following, and
+	 * combat are cancellable. Eating and being stunned are not). If this method
+	 * returns false, it can still be cancelled if the ActionQueue is requested
+	 * to cancel it specifically. When the ActionQueue has the clear() method
+	 * invoked, however, only cancellable Actions will be removed.
 	 * 
 	 * @return true if this action can be cancelled, false if it should not.
 	 */
 	protected abstract boolean isCancellable();
 
 	/**
-	 * Yields this action's turn to the next action, thus invoking the run() method on the next
-	 * action. The next action may yield and so on until one doesn't yield, or the end of the
-	 * ActionQueue is reached. Any exceptions thrown are caught by this method. This is a shortcut
-	 * to getOwner().getActions().yield(this). This is useful in situations such as combat, where a
-	 * Follow is desired until the target is reached, in which case a Follow Action would call
-	 * yield(), allowing a Combat action to be executed immediately after.
+	 * Yields this action's turn to the next action, thus invoking the run()
+	 * method on the next action. The next action may yield and so on until one
+	 * doesn't yield, or the end of the ActionQueue is reached. Any exceptions
+	 * thrown are caught by this method. This is a shortcut to
+	 * getOwner().getActions().yield(this). This is useful in situations such as
+	 * combat, where a Follow is desired until the target is reached, in which
+	 * case a Follow Action would call yield(), allowing a Combat action to be
+	 * executed immediately after.
 	 */
 	public void yield() {
 		getOwner().getActions().yield(this);
@@ -176,8 +186,9 @@ public abstract class Action {
 	}
 
 	/**
-	 * Pairs this action with another. If one action is cancelled, the other action will also become
-	 * cancelled. If one action completes however, the other action will not be cancelled.
+	 * Pairs this action with another. If one action is cancelled, the other
+	 * action will also become cancelled. If one action completes however, the
+	 * other action will not be cancelled.
 	 * 
 	 * @param a
 	 *            the action to pair it with
@@ -209,7 +220,8 @@ public abstract class Action {
 	}
 
 	/**
-	 * Cancels this action. This is a convenience method for getOwner().getActions().cancel(this)
+	 * Cancels this action. This is a convenience method for
+	 * getOwner().getActions().cancel(this)
 	 */
 	public void cancel() {
 		getOwner().getActions().cancel(this);

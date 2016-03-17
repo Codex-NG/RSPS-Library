@@ -4,6 +4,8 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import com.core.LibraryCore;
+
 /**
  * @author Albert Beaupre
  */
@@ -55,11 +57,13 @@ public class EventManager {
 
 		LinkedList<HandlerExecutor> handlers = getHandlers(listener);
 		if (handlers.isEmpty()) {
-			System.out.println("<=== WARNING ===>");
-			System.out.println("Event listener: " + listener.getClass().getCanonicalName());
-			System.out.println("Has no methods which will be registered for events. Are there any defined?");
-			System.out.println("Please check all listeners have the @EventHandler annotation.");
-			System.out.println("<=== WARNING ===>");
+			if (LibraryCore.DEBUGGING) {
+				System.out.println("<=== WARNING ===>");
+				System.out.println("Event listener: " + listener.getClass().getCanonicalName());
+				System.out.println("Has no methods which will be registered for events. Are there any defined?");
+				System.out.println("Please check all listeners have the @EventHandler annotation.");
+				System.out.println("<=== WARNING ===>");
+			}
 		}
 
 		for (HandlerExecutor h : handlers) {

@@ -50,15 +50,15 @@ public class ActionExample {
 
 		@Override
 		protected void run() throws SuspendExecution {
-			//System.out.println("You begin to chop the tree down (Health=" + treeHealth + ")...");
+			System.out.println("You begin to chop the tree down (Health=" + treeHealth + ")...");
 
 			Action.wait(600);//stalls the action for a random amount of millseconds
 			while (treeHealth-- > 0) {
 
-				Action.wait((int) (Math.random() * 600)); //stalls the action for a random amount of millseconds//stalls the action for a random amount of millseconds
-				//System.out.println("You retrieve some willow logs.");
+				Action.wait((int) (Math.random() * 2600)); //stalls the action for a random amount of millseconds//stalls the action for a random amount of millseconds
+				System.out.println("You retrieve some willow logs.");
 			}
-			//System.out.println("The tree has successfully been chopped down.");
+			System.out.println("The tree has successfully been chopped down.");
 		}
 
 		@Override
@@ -81,7 +81,7 @@ public class ActionExample {
 
 		@Override
 		protected void run() throws SuspendExecution {
-			//System.out.println("SECOND ACTION QUEUED");
+			System.out.println("SECOND ACTION QUEUED");
 		}
 
 		@Override
@@ -98,7 +98,7 @@ public class ActionExample {
 
 	public static void main(String[] args) {
 		LibraryCore.initialize();
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 1; i++) {
 			MyActor actor = new MyActor();
 			actor.queue(new FirstAction(actor));
 			actor.queue(new SecondAction(actor));

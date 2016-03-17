@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.core.LibraryCore;
 import com.core.tickable.Tickable;
 
 /**
@@ -363,7 +364,9 @@ public class ActionQueue extends Tickable {
 				//Our task failed to work properly.
 				queue.remove(w); //Threw an exception, don't trust it again.
 
-				System.out.println("Error ticking ActionQueue for Mob " + owner + ". Action: " + w);
+				if (LibraryCore.DEBUGGING) {
+					System.out.println("Error ticking ActionQueue for Mob " + owner + ". Action: " + w);
+				}
 				e.printStackTrace();
 			}
 
@@ -498,6 +501,5 @@ public class ActionQueue extends Tickable {
 	public int size() {
 		return this.queue.size();
 	}
-
 
 }

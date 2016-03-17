@@ -8,6 +8,7 @@ import co.paralleluniverse.fibers.FiberScheduler;
 
 import com.core.tickable.Ticker;
 import com.event.EventManager;
+import com.module.ModuleLoader;
 
 public class LibraryCore {
 
@@ -16,12 +17,22 @@ public class LibraryCore {
 	public static final EventManager EVENTS = new EventManager();
 	public static final Ticker TICKER = new Ticker();
 	public static boolean DEBUGGING = true;
+	public static final ClassLoader CLASS_LOADER = ClassLoader.getSystemClassLoader();
+	
+	public static ModuleLoader MODULE_LOADER;
 
 	private static boolean initialized = false;
 
 	public static void initialize() {
 		initialized = true;
 		submitTask(TICKER);
+
+		System.out.println("Debugging Mode: " + (DEBUGGING ? "ON" : "OFF"));
+		if (MODULE_LOADER == null) {
+			System.out.println("A default Module Loader has not been set.");
+		} else {
+			MODULE_LOADER.load();
+		}
 	}
 
 	public static void submitTask(Runnable task) {
