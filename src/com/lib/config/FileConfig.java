@@ -1,4 +1,4 @@
-package com.lib.yml.config;
+package com.lib.config;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,8 +8,8 @@ import java.io.PrintStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.lib.yml.DumperOptions;
-import com.lib.yml.Yaml;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * A ConfigSection which is based on a particular file. This class contains

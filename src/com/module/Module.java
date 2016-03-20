@@ -6,7 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.lib.yml.config.FileConfig;
+import com.lib.config.FileConfig;
 
 /**
  * A Module class which represents a plugin that may be loaded from the modules

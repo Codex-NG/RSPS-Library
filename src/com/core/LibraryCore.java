@@ -26,10 +26,9 @@ public class LibraryCore {
 	public static void initialize() {
 		initialized = true;
 		submitTask(TICKER);
-
 		System.out.println("Debugging Mode: " + (DEBUGGING ? "ON" : "OFF"));
 		if (MODULE_LOADER == null) {
-			System.out.println("A default Module Loader has not been set.");
+			System.err.println("A default Module Loader has not been set.");
 		} else {
 			MODULE_LOADER.load();
 		}

@@ -1,4 +1,4 @@
-package com.lib.yml.config;
+package com.lib.config;
 
 import java.io.InputStream;
 import java.text.ParseException;
@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.lib.yml.DumperOptions;
-import com.lib.yml.Yaml;
+import org.yaml.snakeyaml.DumperOptions;
+import org.yaml.snakeyaml.Yaml;
 
 /**
  * Represents a configuration section in YML. Internally, this class is simply a

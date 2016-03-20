@@ -1,4 +1,4 @@
-package com.lib.yml.config;
+package com.lib.config;
 
 /**
  * Represents an object which may be serialized and deserialized from a YML

@@ -6,5 +6,6 @@
 	<classpathentry kind="lib" path="dependencies/asm-all-5.0.3.jar"/>
 	<classpathentry kind="lib" path="dependencies/guava-18.0.jar"/>
 	<classpathentry kind="lib" path="dependencies/kryo-2.22-all.jar"/>
+	<classpathentry kind="lib" path="dependencies/snakeyaml.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

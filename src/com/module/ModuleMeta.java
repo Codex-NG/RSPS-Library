@@ -3,8 +3,8 @@ package com.module;
 import java.io.File;
 import java.net.URLClassLoader;
 
-import com.lib.yml.config.ConfigSection;
-import com.lib.yml.config.FileConfig;
+import com.lib.config.ConfigSection;
+import com.lib.config.FileConfig;
 
 /**
  * @author netherfoam
