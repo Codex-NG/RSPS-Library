@@ -2,6 +2,8 @@ package com.core.tickable;
 
 import java.util.ArrayDeque;
 
+import com.core.Core;
+
 public class Ticker implements Runnable {
 
 	private class TickableWrapper {
@@ -38,12 +40,13 @@ public class Ticker implements Runnable {
 
 	public Ticker() {
 		this.tickables = new ArrayDeque<>();
+		Core.initialize();
 	}
 
 	public void queue(Tickable tickable, long period) {
 		TickableWrapper wrapper = new TickableWrapper(tickable, period);
 		wrapper.startTicking();
-		tickables.add(wrapper);
+		tickables.offer(wrapper);
 	}
 
 	@Override

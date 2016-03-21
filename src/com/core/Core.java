@@ -15,16 +15,19 @@ public class Core {
 	public static final ClassLoader CLASS_LOADER = ClassLoader.getSystemClassLoader();
 
 	private static boolean debugging = true;
+	private static boolean initialized;
 
 	public static void initialize() {
-		if (debugging) {
+		if (initialized)
+			return;
+		System.out.println("Booting Core.");
+		if (debugging)
 			System.out.println("DEBUGGING: " + (debugging ? "ON" : "OFF"));
-		}
+		initialized = true;
 		SERVICE.scheduleAtFixedRate(TICKER, 1, 1, TimeUnit.MILLISECONDS);
 	}
 
 	public static boolean isDebugEnabled() {
 		return debugging;
 	}
-
 }
