@@ -14,7 +14,7 @@ import java.util.zip.ZipEntry;
 
 import co.paralleluniverse.fibers.instrument.QuasarURLClassLoader;
 
-import com.core.LibraryCore;
+import com.core.Core;
 import com.lib.config.ConfigSection;
 import com.lib.config.FileConfig;
 
@@ -97,7 +97,7 @@ public class ModuleLoader {
 
 			//If the URL is already added, we want to unload all of the classes loaded from it. That is done in unload(),
 			//so we load the classes here, possibly again.
-			QuasarURLClassLoader cl = new QuasarURLClassLoader(new URL[] { f.toURI().toURL() }, LibraryCore.CLASS_LOADER);
+			QuasarURLClassLoader cl = new QuasarURLClassLoader(new URL[] { f.toURI().toURL() }, Core.CLASS_LOADER);
 
 			ZipEntry e = jar.getEntry("module.yml");
 			if (e == null) {

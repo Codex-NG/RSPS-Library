@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import com.core.LibraryCore;
+import com.core.Core;
 
 /**
  * @author Albert Beaupre
@@ -57,7 +57,7 @@ public class EventManager {
 
 		LinkedList<HandlerExecutor> handlers = getHandlers(listener);
 		if (handlers.isEmpty()) {
-			if (LibraryCore.DEBUGGING) {
+			if (Core.isDebugEnabled()) {
 				System.out.println("<=== WARNING ===>");
 				System.out.println("Event listener: " + listener.getClass().getCanonicalName());
 				System.out.println("Has no methods which will be registered for events. Are there any defined?");

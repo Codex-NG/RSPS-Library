@@ -1,6 +1,6 @@
 package com.event;
 
-import com.core.LibraryCore;
+import com.core.Core;
 
 /**
  * TODO: Instead of creating a (canceled) state, maybe add an EventState, which
@@ -19,8 +19,9 @@ public class Event {
 	 * Calls this {@code Event} and will listen for any {@code EventListener}
 	 * with methods that hold parameters instancing an event.
 	 */
-	public void call() {
-		LibraryCore.EVENTS.callEvent(this);
+	public Event call() {
+		Core.EVENTS.callEvent(this);
+		return this;
 	}
 
 	/**
@@ -39,8 +40,9 @@ public class Event {
 	 * @param canceled
 	 *            the canceled flag to set
 	 */
-	public void setCanceled(boolean canceled) {
+	public Event setCanceled(boolean canceled) {
 		this.canceled = canceled;
+		return this;
 	}
 
 	/**

@@ -106,7 +106,7 @@ public class ConfigSection implements Map<String, Object> {
 	 *            the object to set.
 	 */
 	@SuppressWarnings("unchecked")
-	public void set(String s, Object o) {
+	public ConfigSection set(String s, Object o) {
 		if (s == null) {
 			throw new NullPointerException("Key may not be null.");
 		}
@@ -147,6 +147,7 @@ public class ConfigSection implements Map<String, Object> {
 		} else {
 			node.put(parts[parts.length - 1], o);
 		}
+		return this;
 	}
 
 	/**

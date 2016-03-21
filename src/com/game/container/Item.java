@@ -1,8 +1,11 @@
 package com.game.container;
 
-public class Item {
+import com.lib.config.ConfigSection;
+import com.lib.config.YMLSerializable;
 
-	private final int id;
+public class Item implements YMLSerializable {
+
+	private int id;
 	private int amount;
 	private int health;
 
@@ -42,13 +45,25 @@ public class Item {
 		return this;
 	}
 
-	@Override
-	public String toString() {
-		return String.format("[id=%s, amt=%s, hth=%s]", id, amount, health);
-	}
-
 	public boolean isStackable() {
 		return false;
+	}
+
+	@Override
+	public String toString() {
+		return String.format("[id=%s, amt=%s]", id, amount);
+	}
+
+	@Override
+	public ConfigSection serialize() {
+		ConfigSection config = new ConfigSection();
+		return config.set("id", id).set("amount", amount);
+	}
+
+	@Override
+	public void deserialize(ConfigSection map) {
+		this.id = map.getInt("id");
+		this.amount = map.getInt("amount");
 	}
 
 }

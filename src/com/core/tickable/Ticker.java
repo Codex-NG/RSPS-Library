@@ -4,6 +4,36 @@ import java.util.ArrayDeque;
 
 public class Ticker implements Runnable {
 
+	private class TickableWrapper {
+
+		private final long period;
+		private final Tickable tickable;
+
+		private long startedTicking;
+
+		public TickableWrapper(Tickable tickable, long period) {
+			this.tickable = tickable;
+			this.period = period;
+		}
+
+		public void startTicking() {
+			this.startedTicking = System.currentTimeMillis();
+		}
+
+		public long getPeriod() {
+			return period;
+		}
+
+		public Tickable getTickable() {
+			return tickable;
+		}
+
+		public long getDuration() {
+			return System.currentTimeMillis() - startedTicking;
+		}
+
+	}
+
 	private ArrayDeque<TickableWrapper> tickables;
 
 	public Ticker() {
@@ -12,21 +42,17 @@ public class Ticker implements Runnable {
 
 	public void queue(Tickable tickable, long period) {
 		TickableWrapper wrapper = new TickableWrapper(tickable, period);
-		wrapper.getTickable().queued = true;
 		wrapper.startTicking();
 		tickables.add(wrapper);
 	}
 
 	@Override
 	public void run() {
-		while (true) {
-			TickableWrapper wrapper;
-			synchronized (tickables) {
-				while ((wrapper = tickables.peek()) != null && wrapper.getDuration() >= wrapper.getPeriod()) {
-					wrapper.getTickable().tick();
-					wrapper.getTickable().queued = false;
-					tickables.remove(); // Remove the task, it will not be re-queued.
-				}
+		TickableWrapper wrapper;
+		synchronized (tickables) {
+			while ((wrapper = tickables.peek()) != null && wrapper.getDuration() >= wrapper.getPeriod()) {
+				wrapper.getTickable().tick();
+				tickables.remove(); // Remove the task, it will not be re-queued.
 			}
 		}
 	}
