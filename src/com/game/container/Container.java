@@ -42,14 +42,6 @@ public abstract class Container<E extends Item> implements Collection<E>, Iterab
 		return this;
 	}
 
-	public void transfer(Container<? extends Item> to) {
-		for (Item item : data)
-			if (item != null && remove(item))
-				to.add(item);
-		refresh();
-		to.refresh();
-	}
-
 	public Container<E> add(Item... items) {
 		for (Item item : items)
 			if (item != null)

@@ -1,9 +1,11 @@
-package com.game.coordinates;
+package com.game.world;
+
+import com.game.world.area.MBR;
 
 /**
  * @author Albert Beaupre
  */
-public interface Coordinates {
+public interface Coordinates extends MBR {
 
 	/**
 	 * Returns the x coordinate of this {@code Coordinates} class.
@@ -68,6 +70,40 @@ public interface Coordinates {
 
 	default Coordinates setCoordinates(int x, int y, int z) {
 		return setX(x).setY(y).setZ(z);
+	}
+
+	public static Coordinates max(Coordinates l, Coordinates... locs) {
+		int x = l.getX();
+		int y = l.getY();
+		int z = l.getZ();
+
+		for (Coordinates m : locs) {
+			if (m.getX() > x)
+				x = m.getX();
+			if (m.getY() > y)
+				y = m.getY();
+			if (m.getZ() > z)
+				z = m.getZ();
+		}
+
+		return new GenericCoordinates(x, y, z);
+	}
+
+	public static Coordinates min(Coordinates l, Coordinates... locs) {
+		int x = l.getX();
+		int y = l.getY();
+		int z = l.getZ();
+
+		for (Coordinates m : locs) {
+			if (m.getX() < x)
+				x = m.getX();
+			if (m.getY() < y)
+				y = m.getY();
+			if (m.getZ() < z)
+				z = m.getZ();
+		}
+
+		return new GenericCoordinates(x, y, z);
 	}
 
 }

@@ -1,11 +1,11 @@
-package com.game.coordinates.astar;
+package com.game.world.astar;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import com.game.coordinates.PathFinder;
+import com.game.world.pathfinding.PathFinder;
 
 public abstract class AStarPathFinder implements PathFinder<AStarNode> {
 
@@ -51,7 +51,7 @@ public abstract class AStarPathFinder implements PathFinder<AStarNode> {
 		AStarNode last = goal;
 		while (!last.equals(start)) {
 			path.add(last);
-			last = last.parent;
+			last = (AStarNode) last.getParent();
 		}
 		Collections.reverse(path);
 		return path;

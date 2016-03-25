@@ -40,10 +40,10 @@ public class Ticker implements Runnable {
 
 	public Ticker() {
 		this.tickables = new ArrayDeque<>();
-		Core.initialize();
 	}
 
 	public void queue(Tickable tickable, long period) {
+		Core.initialize();
 		TickableWrapper wrapper = new TickableWrapper(tickable, period);
 		wrapper.startTicking();
 		tickables.offer(wrapper);
@@ -52,11 +52,10 @@ public class Ticker implements Runnable {
 	@Override
 	public void run() {
 		TickableWrapper wrapper;
-		synchronized (tickables) {
-			while ((wrapper = tickables.peek()) != null && wrapper.getDuration() >= wrapper.getPeriod()) {
-				wrapper.getTickable().tick();
-				tickables.remove(); // Remove the task, it will not be re-queued.
-			}
+		while ((wrapper = tickables.peek()) != null && wrapper.getDuration() >= wrapper.getPeriod()) {
+			wrapper.getTickable().cancel();
+			wrapper.getTickable().tick();
+			tickables.remove(); // Remove the task, it will not be re-queued.
 		}
 	}
 

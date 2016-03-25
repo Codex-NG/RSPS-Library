@@ -132,6 +132,10 @@ public class FileConfig extends ConfigSection {
 		}
 	}
 
+	public void setData(Map<String, Object> map) {
+		this.map = map;
+	}
+
 	/**
 	 * Returns what would be the contents of this FileConfig if it were written
 	 * to disk, in string form.

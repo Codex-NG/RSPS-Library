@@ -1,18 +1,15 @@
-package com.game.coordinates.astar;
+package com.game.world.astar;
 
 import java.util.ArrayList;
 
-import com.game.coordinates.Coordinates;
+import com.game.world.pathfinding.PathNode;
 
 /**
  * @author Albert Beaupre
  */
-public class AStarNode implements Coordinates {
+public class AStarNode extends PathNode {
 
-	public AStarNode parent;
 	public double cost, heuristic;
-
-	private int x, y, z;
 
 	/**
 	 * Constructs a new {@code Location} from the specified coordinates.
@@ -25,10 +22,7 @@ public class AStarNode implements Coordinates {
 	 *            the z coordinate of the node
 	 */
 	public AStarNode(int x, int y, int z) {
-		this.x = x;
-		this.y = y;
-		this.z = z;
-		parent = this;
+		super(x, y, z);
 	}
 
 	/**
@@ -45,8 +39,7 @@ public class AStarNode implements Coordinates {
 	 *            the parent of this node
 	 */
 	public AStarNode(int x, int y, int z, AStarNode parent) {
-		this(x, y, z);
-		this.parent = parent;
+		super(x, y, z, parent);
 	}
 
 	/**
@@ -63,7 +56,7 @@ public class AStarNode implements Coordinates {
 			for (int ny = -radius; ny <= radius; ny++) {
 				if (nx == 0 && ny == 0)
 					continue;
-				AStarNode node = new AStarNode(x + nx, y + ny, this.z, this);
+				AStarNode node = new AStarNode(getX() + nx, getY() + ny, getZ(), this);
 				if (finder.blocked(node, goal))
 					continue;
 				node.cost = node.distance(this);
@@ -91,7 +84,7 @@ public class AStarNode implements Coordinates {
 			for (int ny = -radius; ny <= radius; ny++) {
 				if (nx == 0 && ny == 0)
 					continue;
-				AStarNode node = new AStarNode(x + nx, y + ny, this.z, this);
+				AStarNode node = new AStarNode(getX() + nx, getY() + ny, getZ(), this);
 				if (finder.blocked(node, goal))
 					continue;
 				double dist = node.distance(goal);
@@ -106,53 +99,6 @@ public class AStarNode implements Coordinates {
 
 	public double getF() {
 		return cost + heuristic;
-	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (o instanceof AStarNode) {
-			AStarNode n = (AStarNode) o;
-			return x == n.x && y == n.y && z == n.z;
-		}
-		return false;
-	}
-
-	@Override
-	public String toString() {
-		return "[x=" + x + ", y=" + y + ", z=" + z + "]";
-	}
-
-	@Override
-	public int getX() {
-		return x;
-	}
-
-	@Override
-	public int getY() {
-		return y;
-	}
-
-	@Override
-	public int getZ() {
-		return z;
-	}
-
-	@Override
-	public Coordinates setX(int x) {
-		this.x = x;
-		return this;
-	}
-
-	@Override
-	public Coordinates setY(int y) {
-		this.y = y;
-		return this;
-	}
-
-	@Override
-	public Coordinates setZ(int z) {
-		this.z = z;
-		return this;
 	}
 
 }

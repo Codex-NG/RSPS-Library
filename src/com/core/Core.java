@@ -7,6 +7,12 @@ import java.util.concurrent.TimeUnit;
 import com.core.tickable.Ticker;
 import com.event.EventManager;
 
+/**
+ * The {@code Core} class is meant to hold all major referenced pieces of code
+ * that will handle most of the library.
+ * 
+ * @author Albert Beaupre
+ */
 public class Core {
 
 	public static final ScheduledExecutorService SERVICE = Executors.newScheduledThreadPool(2);
@@ -17,6 +23,9 @@ public class Core {
 	private static boolean debugging = true;
 	private static boolean initialized;
 
+	/**
+	 * This method will initialize the {@code Core}.
+	 */
 	public static void initialize() {
 		if (initialized)
 			return;

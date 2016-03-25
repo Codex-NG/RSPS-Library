@@ -1,6 +1,8 @@
-package com.game.coordinates;
+package com.game.world.pathfinding;
 
 import java.util.Collection;
+
+import com.game.world.Coordinates;
 
 public interface PathFinder<E extends Coordinates> {
 

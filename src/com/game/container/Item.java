@@ -51,19 +51,20 @@ public class Item implements YMLSerializable {
 
 	@Override
 	public String toString() {
-		return String.format("[id=%s, amt=%s]", id, amount);
+		return String.format("[id=%s, amt=%s, health=%s]", id, amount, health);
 	}
 
 	@Override
 	public ConfigSection serialize() {
 		ConfigSection config = new ConfigSection();
-		return config.set("id", id).set("amount", amount);
+		return config.set("id", id).set("amount", amount).set("health", health);
 	}
 
 	@Override
 	public void deserialize(ConfigSection map) {
 		this.id = map.getInt("id");
 		this.amount = map.getInt("amount");
+		this.health = map.getInt("health");
 	}
 
 }
