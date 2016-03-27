@@ -52,6 +52,8 @@ public class ActionQueue extends Tickable {
 		Action action = actions.peek();
 		if (action != null) {
 			action.run();
+			if (action.interrupt())
+				action.stop();
 			if (!action.isRunning()) {
 				action.onCancel();
 				actions.remove();

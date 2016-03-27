@@ -33,6 +33,8 @@ public abstract class Action {
 	 */
 	public abstract boolean isCancellable();
 
+	public abstract boolean interrupt();
+	
 	/**
 	 * Stops this {@code Action}.
 	 */
