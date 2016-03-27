@@ -17,7 +17,7 @@ import com.lib.ArrayUtility;
 public abstract class Container<E extends Item> implements Collection<E>, Iterable<E> {
 
 	private final ContainerType type;
-	private final int capacity;
+	private final byte capacity;
 	private int maxStack, minStack;
 	private Item[] data;
 	private int size;
@@ -27,7 +27,7 @@ public abstract class Container<E extends Item> implements Collection<E>, Iterab
 	}
 
 	public Container(ContainerType type, int capacity, int minStack, int maxStack) {
-		this.data = new Item[this.capacity = capacity];
+		this.data = new Item[this.capacity = (byte) capacity];
 		this.maxStack = maxStack;
 		this.minStack = minStack;
 		this.type = type;

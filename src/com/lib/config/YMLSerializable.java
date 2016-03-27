@@ -1,24 +1,40 @@
 package com.lib.config;
 
+import java.io.File;
+
 /**
  * Represents an object which may be serialized and deserialized from a YML
- * config.
+ * configuration.
  * 
  * @author Albert Beaupre
  */
 public interface YMLSerializable {
+
 	/**
-	 * Serializes this object into a map.
+	 * Serializes this object into a {@code ConfigSection}.
 	 * 
-	 * @return the map
+	 * @return the serialized config section
 	 */
 	public ConfigSection serialize();
 
 	/**
-	 * Deserializes this object from the given map.
+	 * Deserializes the specified {@code map}.
 	 * 
 	 * @param map
-	 *            the map.
+	 *            the map the deserialize
 	 */
-	public void deserialize(ConfigSection map);
+	public YMLSerializable deserialize(ConfigSection map);
+
+	/**
+	 * Saves this {@code YMLSerializable} to the specified {@code file} in YML
+	 * format.
+	 * 
+	 * @param file
+	 *            the file to be saved to
+	 */
+	public default void save(File file) {
+		FileConfig config = new FileConfig(file);
+		config.map = serialize();
+		config.save();
+	}
 }

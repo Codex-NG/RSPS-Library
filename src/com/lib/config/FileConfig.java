@@ -104,9 +104,7 @@ public class FileConfig extends ConfigSection {
 	 *             If there was an error loading the file (Eg, not found)
 	 */
 	public void reload() throws IOException {
-		this.map.clear(); // Drop all previous info
 		load(this.file); // Load from disk again
-
 	}
 
 	/**

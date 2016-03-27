@@ -51,6 +51,8 @@ public class Ticker implements Runnable {
 
 	@Override
 	public void run() {
+		if (tickables.isEmpty())
+			return;
 		TickableWrapper wrapper;
 		while ((wrapper = tickables.peek()) != null && wrapper.getDuration() >= wrapper.getPeriod()) {
 			wrapper.getTickable().cancel();

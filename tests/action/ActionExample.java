@@ -6,7 +6,7 @@ public class ActionExample extends Action {
 
 	@Override
 	public void run() {
-		System.out.println("OMFG2");
+		System.out.println("OMFG: " + Math.random());
 		stop();
 	}
 

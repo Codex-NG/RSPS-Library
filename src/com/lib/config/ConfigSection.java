@@ -354,6 +354,11 @@ public class ConfigSection implements Map<String, Object> {
 		return c;
 	}
 
+	@SuppressWarnings("unchecked")
+	public <T> T get(String s, Class<T> cast) {
+		return (T) getObject(s);
+	}
+
 	/**
 	 * Fetches the raw object at the given location.
 	 * 
@@ -404,6 +409,35 @@ public class ConfigSection implements Map<String, Object> {
 	}
 
 	/**
+	 * Fetches the byte at the given key.
+	 * 
+	 * @param k
+	 *            the key
+	 * @return the value or 0 if not found.
+	 */
+	public byte getByte(String k) {
+		return getByte(k, (byte) 0);
+	}
+
+	/**
+	 * Fetches the byte at the given key, allowing a fallback value to be
+	 * specified.
+	 * 
+	 * @param k
+	 *            the key to search for
+	 * @param fallback
+	 *            the value to use if the key is not found.
+	 * @return the value, or fallback if not found.
+	 */
+	public byte getByte(String k, byte fallback) {
+		try {
+			return ((Number) getObject(k)).byteValue();
+		} catch (Exception e) {
+			return fallback;
+		}
+	}
+
+	/**
 	 * Fetches the integer at the given key.
 	 * 
 	 * @param k
@@ -427,6 +461,35 @@ public class ConfigSection implements Map<String, Object> {
 	public int getInt(String k, int fallback) {
 		try {
 			return ((Number) getObject(k)).intValue();
+		} catch (Exception e) {
+			return fallback;
+		}
+	}
+
+	/**
+	 * Fetches the short at the given key.
+	 * 
+	 * @param k
+	 *            the key
+	 * @return the value or 0 if not found.
+	 */
+	public short getShort(String k) {
+		return getShort(k, (short) 0);
+	}
+
+	/**
+	 * Fetches the short at the given key, allowing a fallback value to be
+	 * specified.
+	 * 
+	 * @param k
+	 *            the key to search for
+	 * @param fallback
+	 *            the value to use if the key is not found.
+	 * @return the value, or fallback if not found.
+	 */
+	public short getShort(String k, short fallback) {
+		try {
+			return ((Number) getObject(k)).shortValue();
 		} catch (Exception e) {
 			return fallback;
 		}

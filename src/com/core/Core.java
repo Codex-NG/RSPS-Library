@@ -15,7 +15,7 @@ import com.event.EventManager;
  */
 public class Core {
 
-	public static final ScheduledExecutorService SERVICE = Executors.newScheduledThreadPool(2);
+	public static final ScheduledExecutorService SERVICE = Executors.newScheduledThreadPool(4);
 	public static final EventManager EVENTS = new EventManager();
 	public static final Ticker TICKER = new Ticker();
 	public static final ClassLoader CLASS_LOADER = ClassLoader.getSystemClassLoader();

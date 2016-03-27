@@ -5,7 +5,7 @@ public class EventExampleMain {
 	public static void main(String[] args) {
 		EventListenerExample listener = new EventListenerExample();
 		EventExample event = new EventExample("Testing: " + Math.random());
-		
+
 		listener.register(); //Registers the event listener to listen for events
 
 		/**

@@ -29,7 +29,6 @@ public abstract class Area implements MBR {
 	 *            the opposite corner of the area
 	 */
 	public Area(Coordinates cornerA, Coordinates cornerB) {
-
 		this.min = Coordinates.min(cornerA, cornerB);
 		this.max = Coordinates.max(cornerA, cornerB);
 	}
@@ -62,19 +61,21 @@ public abstract class Area implements MBR {
 	}
 
 	/**
-	 * Returns true if the given position is within this area. This
+	 * Returns true if the given {@code coordinates} is within this area.
 	 * 
-	 * @param p
-	 * @return
+	 * @param coordinates
+	 *            the coordinates to check
+	 * @return true if the coordinates are within this area; return false
+	 *         otherwise
 	 */
-	public boolean contains(Coordinates p) {
-		if (p.getX() < min.getX())
+	public boolean contains(Coordinates coordinates) {
+		if (coordinates.getX() < min.getX())
 			return false;
-		if (p.getY() < min.getY())
+		if (coordinates.getY() < min.getY())
 			return false;
-		if (p.getX() > max.getX())
+		if (coordinates.getX() > max.getX())
 			return false;
-		if (p.getY() > max.getY())
+		if (coordinates.getY() > max.getY())
 			return false;
 
 		return true;

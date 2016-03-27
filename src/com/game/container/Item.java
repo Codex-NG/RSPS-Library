@@ -5,12 +5,12 @@ import com.lib.config.YMLSerializable;
 
 public class Item implements YMLSerializable {
 
-	private int id;
+	private short id;
 	private int amount;
-	private int health;
+	private byte health;
 
 	public Item(int id, int amount, int health) {
-		this.id = id;
+		this.id = (short) id;
 		this.amount(amount);
 		this.health(health);
 	}
@@ -41,7 +41,7 @@ public class Item implements YMLSerializable {
 	}
 
 	public Item health(int health) {
-		this.health = health;
+		this.health = (byte) health;
 		return this;
 	}
 
@@ -61,10 +61,11 @@ public class Item implements YMLSerializable {
 	}
 
 	@Override
-	public void deserialize(ConfigSection map) {
-		this.id = map.getInt("id");
+	public YMLSerializable deserialize(ConfigSection map) {
+		this.id = map.getShort("id");
 		this.amount = map.getInt("amount");
-		this.health = map.getInt("health");
+		this.health = map.getByte("health");
+		return this;
 	}
 
 }

@@ -28,8 +28,8 @@ public class ActionQueue extends Tickable {
 	 *            the action to be queued.
 	 */
 	public void queue(Action action) {
-		actions.offer(action);
-		queue(this.delay);
+		if (actions.offer(action))
+			queue();
 	}
 
 	/**
@@ -51,13 +51,13 @@ public class ActionQueue extends Tickable {
 
 		Action action = actions.peek();
 		if (action != null) {
+			action.run();
 			if (!action.isRunning()) {
 				action.onCancel();
 				actions.remove();
 				queue();
 				return;
 			}
-			action.run();
 			queue(this.delay);
 		}
 	}
